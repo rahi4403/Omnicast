@@ -72,6 +72,5 @@ Full matrix table generating translations and cultural adaptations simultaneousl
 ---
 
 ## 🚀 Deployed Link:
-https://omnicast1.vercel.app/
-
+https://omnicast-main-1.vercel.app/
 
