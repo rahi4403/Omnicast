@@ -71,31 +71,7 @@ Full matrix table generating translations and cultural adaptations simultaneousl
 
 ---
 
-## 🚀 Quickstart Guide
+## 🚀 Deployed Link:
+https://omnicast1.vercel.app/
 
-### 1. Clone the repository
-```bash
-git clone https://github.com/rahi4403/Omnicast.git
-cd Omnicast
-```
 
-### 2. Install dependencies
-```bash
-pip install -r requirements.txt
-```
-
-### 3. Run the application
-```bash
-python app.py
-```
-
-### 4. Access the platform
-Open your browser and navigate to:
-```
-http://localhost:5000
-```
-
----
-
-## 📄 License
-Axion Hackathon Project © 2026 OmniCast AI.
