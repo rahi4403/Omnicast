@@ -945,8 +945,15 @@ function toggleRadioStream() {
 }
 
 async function broadcastNextRadioBall() {
-  if (!feedBalls || feedBalls.length === 0) return;
-  const ball = feedBalls[Math.floor(Math.random() * feedBalls.length)];
+  const ball = (feedBalls && feedBalls.length > 0)
+    ? feedBalls[Math.floor(Math.random() * feedBalls.length)]
+    : {
+        raw_text: currentSelectedBallText || "Short of a length and angled across off, left alone by the batsman.",
+        bowler: "Jasprit Bumrah",
+        striker: "Virat Kohli",
+        speed: "142 km/h",
+        event_type: "DOT"
+      };
   const nowText = document.getElementById('radio-now-playing-text');
   const nowMeta = document.getElementById('radio-now-playing-meta');
 
@@ -981,7 +988,13 @@ async function broadcastNextRadioBall() {
 async function setRadioChannel(lang, element) {
   currentRadioLang = lang;
   document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
-  if (element) element.classList.add('active');
+  if (element) {
+    element.classList.add('active');
+  } else {
+    document.querySelectorAll('.preset-btn').forEach(b => {
+      if (b.textContent.includes(lang)) b.classList.add('active');
+    });
+  }
   showToast(`Switched Radio Station to ${lang} 98.4 FM`);
   await broadcastNextRadioBall();
 }
