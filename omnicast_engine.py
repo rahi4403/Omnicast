@@ -986,29 +986,19 @@ def generate_voice_mail(text_to_speak, selected_lang="Bengali", recipient_name="
     lang_info = LANGUAGES_CONFIG[selected_lang]
     tts_code = lang_info.get("tts_engine", lang_info.get("gtts", "en"))
 
-    # Force cultural_tone to "standard" for voicemail so dialect slang prefixes/suffixes are NEVER injected!
-    cultural_tone = "standard"
-
     # Clean input
-    text_to_speak = clean_cricket_commentary_text(text_to_speak)
+    if text_to_speak:
+        text_to_speak = clean_cricket_commentary_text(text_to_speak)
 
-    # 1. If text is empty or English commentary, adapt it to selected_lang!
-    if not text_to_speak or not text_to_speak.strip() or (is_predominantly_english(text_to_speak) and selected_lang != "English"):
+    # 1. If text is empty or raw English dataset commentary, adapt it to selected_lang with requested cultural tone
+    is_raw_feed_match = any(b["raw_text"].lower().strip() == str(text_to_speak).lower().strip() for b in DEFAULT_BALL_FEED)
+    if not text_to_speak or not text_to_speak.strip() or (is_raw_feed_match and selected_lang != "English"):
         source_text = text_to_speak.strip() if text_to_speak and text_to_speak.strip() else DEFAULT_BALL_FEED[0]["raw_text"]
         text_to_speak = adapt_commentary_multilingual(
             raw_text=source_text,
             audience_mode=audience_mode,
             target_lang=selected_lang,
-            cultural_tone="standard"
-        )
-
-    text_to_speak = clean_cricket_commentary_text(text_to_speak)
-    if not text_to_speak or not text_to_speak.strip():
-        text_to_speak = adapt_commentary_multilingual(
-            raw_text=DEFAULT_BALL_FEED[0]["raw_text"],
-            audience_mode=audience_mode,
-            target_lang=selected_lang,
-            cultural_tone="standard"
+            cultural_tone=cultural_tone
         )
 
     # 2. Add localized cricket recipient greeting if specified
@@ -1040,7 +1030,7 @@ def generate_voice_mail(text_to_speak, selected_lang="Bengali", recipient_name="
             raw_text=DEFAULT_BALL_FEED[0]["raw_text"],
             audience_mode=audience_mode,
             target_lang=selected_lang,
-            cultural_tone="standard"
+            cultural_tone=cultural_tone
         )
 
     # 4. Generate unique filename hash

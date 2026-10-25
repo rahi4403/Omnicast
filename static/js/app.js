@@ -461,8 +461,8 @@ async function runAdaptation() {
 async function playCurrentAdaptedAudio() {
   const adaptedDisplay = document.getElementById('display-adapted-commentary');
   const text = adaptedDisplay ? adaptedDisplay.textContent.trim() : '';
-  if (!text) return;
-  await playBallAudioInstant(text, activeTargetLang);
+  if (!text || text.includes('Generating neural adaptation...')) return;
+  await playBallAudioInstant(text, activeTargetLang, activeCulturalTone);
 }
 
 function copyAdaptedText() {
@@ -473,17 +473,19 @@ function copyAdaptedText() {
   }
 }
 
-function sendAdaptedToVoicemail() {
+async function sendAdaptedToVoicemail() {
   const adaptedDisplay = document.getElementById('display-adapted-commentary');
   if (adaptedDisplay) {
-    const text = sanitizeCricketText(adaptedDisplay.textContent.trim());
+    const text = adaptedDisplay.textContent.trim();
+    if (!text || text.includes('Generating neural adaptation...')) return;
     const scriptArea = document.getElementById('vm-input-script');
     const langSelect = document.getElementById('vm-select-language');
     if (scriptArea) scriptArea.value = text;
     if (langSelect) langSelect.value = activeTargetLang;
     updateVoicemailPreview();
     switchTab('audio-tab');
-    showToast(`Loaded ${activeTargetLang} adaptation into Voicemail Studio`);
+    showToast(`Loaded ${activeTargetLang} (${activeCulturalTone}) adaptation into Voicemail Studio`);
+    await generateVoicemail();
   }
 }
 
@@ -653,7 +655,7 @@ async function onVoicemailLanguageChange() {
         raw_text: currentSelectedBallText,
         target_lang: newLang,
         audience_mode: activeComplexityMode || 'rookie',
-        cultural_tone: 'standard'
+        cultural_tone: activeCulturalTone || 'standard'
       })
     });
     const data = await res.json();
@@ -719,7 +721,7 @@ async function generateVoicemail() {
         recipient: recipient,
         celebration: celebration,
         audience_mode: activeComplexityMode || 'rookie',
-        cultural_tone: 'standard'
+        cultural_tone: activeCulturalTone || 'standard'
       })
     });
 
@@ -779,8 +781,9 @@ function playAudio(url) {
   audioElement.play().catch(e => console.log("Audio autoplay policy:", e));
 }
 
-async function playBallAudioInstant(text, lang = 'Hindi') {
-  showToast(`Generating ${lang} commentary audio...`);
+async function playBallAudioInstant(text, lang = 'Hindi', tone = null) {
+  const chosenTone = tone || activeCulturalTone || 'standard';
+  showToast(`Generating ${lang} commentary audio (${chosenTone})...`);
   try {
     const res = await fetch('/api/generate-voicemail', {
       method: 'POST',
@@ -789,7 +792,8 @@ async function playBallAudioInstant(text, lang = 'Hindi') {
         text: text,
         language: lang,
         recipient: "All Fans",
-        audience_mode: activeComplexityMode || 'rookie'
+        audience_mode: activeComplexityMode || 'rookie',
+        cultural_tone: chosenTone
       })
     });
     const data = await res.json();
