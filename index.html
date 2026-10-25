@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OmniCast AI | Pure Cricket Multilingual Commentary & Audio Broadcasting Hub</title>
+  <meta name="description" content="OmniCast AI: Live cricket match feed, ball-by-ball stream, rookie vs tactical complexity switcher, cultural dialect cricket adaptation, 15-language multilingual broadcast, and gTTS audio voicemails.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  <!-- Header / Navigation Bar -->
+  <header class="navbar" id="main-navbar">
+    <div class="nav-container">
+      <div class="brand-logo" id="brand-logo" onclick="switchTab('feed-tab')">
+        <div class="logo-icon-wrapper">
+          <svg class="logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10" stroke="#22c55e" stroke-width="2.5"/>
+            <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" stroke="#4ade80"/>
+            <path d="M2 12h20" stroke="#22c55e"/>
+          </svg>
+          <span class="live-pulse-dot"></span>
+        </div>
+        <div class="brand-text">
+          <span class="brand-title">OMNICAST <span class="highlight-green">AI</span></span>
+          <span class="brand-sub">CRICKET BROADCAST • LIVE THE GAME</span>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs Switcher -->
+      <nav class="nav-links" id="nav-tabs-container">
+        <button class="nav-tab-btn active" id="btn-tab-feed" onclick="switchTab('feed-tab')">
+          <span class="nav-icon">⚡</span>
+          <span>Live Match Feed</span>
+        </button>
+        <button class="nav-tab-btn" id="btn-tab-complexity" onclick="switchTab('complexity-tab')">
+          <span class="nav-icon">🎛️</span>
+          <span>Complexity & Culture</span>
+        </button>
+        <button class="nav-tab-btn" id="btn-tab-multilingual" onclick="switchTab('multilingual-tab')">
+          <span class="nav-icon">🌐</span>
+          <span>Multilingual Broadcast</span>
+          <span class="badge-count">15</span>
+        </button>
+        <button class="nav-tab-btn" id="btn-tab-audio" onclick="switchTab('audio-tab')">
+          <span class="nav-icon">🎙️</span>
+          <span>Audio Voice Mail</span>
+          <span class="badge-live">LIVE</span>
+        </button>
+      </nav>
+
+      <!-- Quick Action CTA -->
+      <div class="nav-actions">
+        <div class="status-pill" id="engine-status-pill">
+          <span class="status-indicator"></span>
+          <span class="status-label">AI Engine Connected</span>
+        </div>
+        <button class="btn-primary-pill" id="btn-launch-audio-header" onclick="switchTab('audio-tab'); triggerQuickLiveRadio();">
+          <span>Live Stream</span>
+          <span class="arrow-up-right">↗</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Banner (Matching Template) -->
+  <section class="hero-section" id="hero-banner">
+    <div class="hero-backdrop" style="background-image: linear-gradient(180deg, rgba(10, 14, 20, 0.4) 0%, rgba(10, 14, 20, 0.95) 100%), url('/static/images/hero.jpg');"></div>
+    <div class="hero-content">
+      <div class="hero-text-col">
+        <div class="hero-badge">
+          <span class="badge-sparkle">✨</span>
+          <span>OMNICAST MULTILINGUAL ADVANCED AI PIPELINE</span>
+        </div>
+        <h1 class="hero-heading">
+          Live the Passion.<br>
+          Feel the Game.<br>
+          <span class="highlight-green-text">Be the 12th Player.</span>
+        </h1>
+        <p class="hero-description">
+          Next-generation sports broadcast intelligence. Experience real-time ball-by-ball commentary, instant rookie-to-hardcore tactical adaptation, regional cultural slang, and crystal-clear voice mail audio across 15 Indian languages.
+        </p>
+        <div class="hero-cta-group">
+          <button class="btn-hero-primary" id="btn-hero-explore" onclick="switchTab('feed-tab')">
+            <span>Explore Live Stream</span>
+            <span class="btn-arrow">→</span>
+          </button>
+          <button class="btn-hero-secondary" id="btn-hero-listen" onclick="switchTab('audio-tab'); triggerQuickLiveRadio();">
+            <span class="play-icon-circle">▶</span>
+            <span>Listen Live Radio</span>
+          </button>
+        </div>
+
+        <!-- Metric Counter Strip -->
+        <div class="hero-stats-card" id="hero-stats-card">
+          <div class="stats-left">
+            <div class="avatar-stack">
+              <span class="avatar-circle">🇮🇳</span>
+              <span class="avatar-circle">🏏</span>
+              <span class="avatar-circle">🏆</span>
+              <span class="avatar-badge">+25K</span>
+            </div>
+            <span class="stats-subtitle">Trusted by Fans Worldwide</span>
+          </div>
+          <div class="stats-divider"></div>
+          <div class="stats-metric-item">
+            <span class="metric-number">250+</span>
+            <span class="metric-caption">Matches Every Year</span>
+          </div>
+          <div class="stats-divider"></div>
+          <div class="stats-metric-item">
+            <span class="metric-number">15</span>
+            <span class="metric-caption">Regional Languages</span>
+          </div>
+          <div class="stats-divider"></div>
+          <div class="stats-metric-item">
+            <span class="metric-number">98%</span>
+            <span class="metric-caption">Satisfaction Rate</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Live Match Scorecard Ticker -->
+  <section class="match-ticker-section" id="match-ticker">
+    <div class="ticker-container">
+      <div class="match-live-tag">
+        <span class="live-dot-pulsing"></span>
+        <span>LIVE BROADCAST</span>
+      </div>
+      <div class="match-title-info" id="ticker-match-title">
+        <span class="league-name">ICC World Championship Final</span>
+        <span class="match-teams">🇮🇳 India <strong id="ticker-score">184/4</strong> (18.4 Ov) vs 🇦🇺 Australia</span>
+      </div>
+      <div class="match-rates">
+        <span class="rate-badge">CRR: <strong id="ticker-crr">9.85</strong></span>
+        <span class="rate-badge">Projected: <strong>198</strong></span>
+      </div>
+      <div class="win-prob-wrapper">
+        <span class="prob-label">Win Prob: IND 68%</span>
+        <div class="prob-bar">
+          <div class="prob-fill" style="width: 68%;"></div>
+        </div>
+        <span class="prob-label">AUS 32%</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Multi-Tab Feature Application Area -->
+  <main class="app-main-container">
+
+    <!-- TAB 1: Live Match Feed & Ball-by-Ball Stream Tab -->
+    <section class="tab-content-panel active" id="feed-tab">
+      <div class="section-header-row">
+        <div>
+          <span class="section-tag">FEATURE TAB 1</span>
+          <h2 class="section-title">Live Match Feed & Ball-by-Ball Stream</h2>
+          <p class="section-subtitle">Real-time commentary dataset feed with telemetry, pitch zones, and instant adaptation links.</p>
+        </div>
+        <div class="stream-control-buttons">
+          <button class="btn-stream-auto" id="btn-toggle-autostream" onclick="toggleAutoStream()">
+            <span id="autostream-icon">🔴</span>
+            <span id="autostream-text">Simulate Live Stream</span>
+          </button>
+          <button class="btn-stream-action" id="btn-next-ball" onclick="advanceNextBall()">
+            <span>Next Ball</span>
+            <span>⏭</span>
+          </button>
+          <button class="btn-stream-secondary" onclick="openAddBallModal()">
+            <span>➕ Add Ball</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Live Pitch & Match Radar Cards -->
+      <div class="grid-feed-layout">
+        <div class="feed-left-col">
+          <!-- Active Pitch Telemetry Box -->
+          <div class="pitch-telemetry-card" id="pitch-telemetry-box">
+            <div class="telemetry-header">
+              <span class="telemetry-badge">PITCH RADAR & BALL TELEMETRY</span>
+              <span class="telemetry-speed" id="active-ball-speed">145 km/h</span>
+            </div>
+            <div class="pitch-visualizer">
+              <div class="pitch-stumps-top">|||</div>
+              <div class="pitch-zone-marker" id="pitch-impact-marker" style="top: 75%; left: 48%;">
+                <span class="zone-ripple"></span>
+                <span class="zone-dot"></span>
+              </div>
+              <div class="pitch-line popping-crease"></div>
+              <div class="pitch-zone-label" id="pitch-zone-text">Blockhole • Leg Stump Yorker</div>
+              <div class="pitch-stumps-bottom">|||</div>
+            </div>
+            <div class="telemetry-metrics-grid">
+              <div class="metric-box">
+                <span class="metric-label">Bowler</span>
+                <span class="metric-val" id="metric-bowler">Jasprit Bumrah</span>
+              </div>
+              <div class="metric-box">
+                <span class="metric-label">Striker</span>
+                <span class="metric-val" id="metric-striker">Virat Kohli</span>
+              </div>
+              <div class="metric-box">
+                <span class="metric-label">Release Angle</span>
+                <span class="metric-val">18.4° Lateral</span>
+              </div>
+              <div class="metric-box">
+                <span class="metric-label">Impact Risk</span>
+                <span class="metric-val text-red" id="metric-impact">Crucial Wicket</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Actions on Active Ball -->
+          <div class="active-ball-quick-card">
+            <h4 class="card-inner-title">Active Delivery Commentary</h4>
+            <blockquote class="active-commentary-quote" id="active-ball-raw-text">
+              "Unplayable yorker right at the base of leg stump! 145 clicks, timber shattered! Clean bowled!"
+            </blockquote>
+            <div class="quick-action-pill-group">
+              <button class="btn-action-sm" onclick="sendToComplexity(currentSelectedBallText)">
+                <span>🎛️ Adapt Complexity</span>
+              </button>
+              <button class="btn-action-sm" onclick="sendToMultilingual(currentSelectedBallText)">
+                <span>🌐 15 Languages</span>
+              </button>
+              <button class="btn-action-sm" onclick="sendToAudioVoiceMail(currentSelectedBallText)">
+                <span>🎙️ Create Voicemail</span>
+              </button>
+              <button class="btn-action-sm btn-action-listen" onclick="playBallAudioInstant(currentSelectedBallText, 'Hindi')">
+                <span>🔊 Listen (Hindi)</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Feed List Stream Column -->
+        <div class="feed-right-col">
+          <div class="feed-filter-bar">
+            <div class="filter-chip active" onclick="filterFeed('all', this)">All Events (<span id="count-all">8</span>)</div>
+            <div class="filter-chip" onclick="filterFeed('WICKET', this)">Wickets 🔴</div>
+            <div class="filter-chip" onclick="filterFeed('SIX', this)">Sixes 🟣</div>
+            <div class="filter-chip" onclick="filterFeed('FOUR', this)">Fours 🟢</div>
+            <div class="filter-chip" onclick="filterFeed('DOT', this)">Dots ⚪</div>
+          </div>
+
+          <div class="timeline-ball-list" id="ball-stream-container">
+            <!-- Dynamically populated ball timeline items -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: Complexity Switcher & Cultural Adaptation Tab -->
+    <section class="tab-content-panel" id="complexity-tab">
+      <div class="section-header-row">
+        <div>
+          <span class="section-tag">FEATURE TAB 2</span>
+          <h2 class="section-title">Complexity Switcher & Cultural Adaptation</h2>
+          <p class="section-subtitle">Toggle between Rookie simplification and Hardcore Tactical depth, combined with authentic regional dialects and slang.</p>
+        </div>
+      </div>
+
+      <!-- Complexity & Culture Controls Panel -->
+      <div class="control-card-wrapper">
+        <div class="mode-culture-grid">
+          <!-- Complexity Switcher -->
+          <div class="control-box">
+            <label class="control-box-label">1. AUDIENCE COMPLEXITY MODE</label>
+            <div class="complexity-toggle-group">
+              <button class="complexity-btn active" id="btn-mode-rookie" onclick="setComplexityMode('rookie')">
+                <span class="mode-icon">🌱</span>
+                <div class="mode-desc-wrap">
+                  <span class="mode-name">Rookie Mode</span>
+                  <span class="mode-caption">Beginner-friendly, zero jargon, clear rule analogies</span>
+                </div>
+              </button>
+              <button class="complexity-btn" id="btn-mode-expert" onclick="setComplexityMode('expert')">
+                <span class="mode-icon">🧠</span>
+                <div class="mode-desc-wrap">
+                  <span class="mode-name">Hardcore Tactical / Expert</span>
+                  <span class="mode-caption">Seam mechanics, xG, corridor geometry, micro-tactics</span>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <!-- Cultural Dialect / Slang Selector -->
+          <div class="control-box">
+            <label class="control-box-label">2. CULTURAL DIALECT & TONE ADAPTATION</label>
+            <div class="culture-select-wrapper">
+              <select class="culture-dropdown" id="select-cultural-tone" onchange="runAdaptation()">
+                <option value="standard">🏛️ Standard Broadcast (Polite, Balanced)</option>
+                <option value="mumbai_tapori">😎 Mumbai Gully / Tapori (Bawa, Kadak, Swag)</option>
+                <option value="bhojpuri_dhamaka" selected>🥁 Bhojpuri Desi Dhamaka (Garda Uda Dihe!)</option>
+                <option value="punjabi_josh">🌾 Punjabi Gabru Josh (Chak De Phatte!)</option>
+                <option value="kolkata_adda">🐯 Kolkata Adda & Passion (Lyrical, Poetic)</option>
+                <option value="chennai_mass">⚡ Chennai Stadium Mass (Whistle Podu, Mass Hero)</option>
+                <option value="british_dry">☕ British BBC Classic (Vintage Dry Wit)</option>
+              </select>
+              <p class="culture-hint-text" id="culture-hint-text">
+                Infuses authentic regional slang, idioms, metaphors, and high-energy local expressions.
+              </p>
+            </div>
+          </div>
+
+          <!-- Target Language for this adaptation -->
+          <div class="control-box">
+            <label class="control-box-label">3. TARGET LANGUAGE</label>
+            <select class="culture-dropdown" id="select-target-lang-adaptation" onchange="runAdaptation()">
+              <option value="Hindi" selected>🇮🇳 Hindi (हिन्दी)</option>
+              <option value="English">🌐 English</option>
+              <option value="Marathi">🚩 Marathi (मराठी)</option>
+              <option value="Punjabi">🌾 Punjabi (ਪੰਜਾਬੀ)</option>
+              <option value="Odia">🛕 Odia / Oriya (ଓଡ଼ିଆ)</option>
+              <option value="Gujarati">🦁 Gujarati (ગુજરાતી)</option>
+              <option value="Rajasthani">🐪 Rajasthani (राजस्थानी)</option>
+              <option value="Tamil">🏛️ Tamil (தமிழ்)</option>
+              <option value="Telugu">⚡ Telugu / Telegu (తెలుగు)</option>
+              <option value="Nepali">🏔️ Nepali (नेपाली)</option>
+              <option value="Bengali">🐯 Bengali (বাংলা)</option>
+              <option value="Kannada">👑 Kannada (ಕನ್ನಡ)</option>
+              <option value="Urdu">🌙 Urdu (اردو)</option>
+              <option value="Assamese">🦏 Assamese (অসমীয়া)</option>
+              <option value="Bhojpuri">🥁 Bhojpuri (भोजपुरी)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Custom Commentary Input Bar -->
+        <div class="input-commentary-bar">
+          <input type="text" class="input-commentary-field" id="input-raw-commentary" 
+                 value="Short of a length and angled across off, left alone by the batsman." 
+                 placeholder="Type or paste any live cricket ball-by-ball commentary to adapt...">
+          <button class="btn-primary-pill" id="btn-run-adapt" onclick="runAdaptation()">
+            <span>Adapt Now</span>
+            <span>⚡</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Side-by-Side Comparison Arena -->
+      <div class="comparison-arena-grid">
+        <!-- Left Box: Raw Original Commentary -->
+        <div class="arena-card original-card">
+          <div class="arena-card-header">
+            <span class="arena-badge raw-badge">ORIGINAL COMMENTARY (FEED)</span>
+            <span class="source-tag">Source: Dataset</span>
+          </div>
+          <div class="arena-body">
+            <p class="commentary-display-text" id="display-raw-commentary">
+              "Short of a length and angled across off, left alone by the batsman."
+            </p>
+          </div>
+          <div class="arena-footer">
+            <span class="stat-tag" id="raw-word-count">11 words</span>
+            <span class="stat-tag">Standard English</span>
+          </div>
+        </div>
+
+        <!-- Right Box: Culturally Adapted Output -->
+        <div class="arena-card adapted-card">
+          <div class="arena-card-header">
+            <div class="header-badge-group">
+              <span class="arena-badge adapted-badge" id="badge-active-mode">ROOKIE MODE</span>
+              <span class="arena-badge tone-badge" id="badge-active-culture">BHOJPURI DHAMAKA</span>
+            </div>
+            <button class="btn-arena-listen" id="btn-listen-adapted" onclick="playCurrentAdaptedAudio()">
+              <span>🔊 Listen (gTTS)</span>
+            </button>
+          </div>
+          <div class="arena-body">
+            <div class="adapted-output-text" id="display-adapted-commentary">
+              Loading adaptation...
+            </div>
+          </div>
+          <div class="arena-footer">
+            <div class="footer-stats">
+              <span class="stat-tag" id="adapted-lang-tag">Language: Hindi</span>
+              <span class="stat-tag" id="adapted-latency-tag">AI Latency: 12ms</span>
+            </div>
+            <div class="footer-actions">
+              <button class="btn-copy-text" onclick="copyAdaptedText()">📋 Copy</button>
+              <button class="btn-copy-text" onclick="sendAdaptedToVoicemail()">🎙️ Voicemail</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Explainability & Nuance Analysis Breakdown -->
+      <div class="explainability-panel">
+        <h4 class="explainability-title">🔍 Adaptation & Cultural Nuance Breakdown</h4>
+        <div class="explainability-grid">
+          <div class="explain-item">
+            <span class="explain-label">Cognitive Load / Jargon Level</span>
+            <div class="score-bar-wrapper">
+              <div class="score-bar"><div class="score-fill" id="score-fill-jargon" style="width: 25%;"></div></div>
+              <span class="score-text" id="score-text-jargon">Low Jargon (Accessible to 99% of fans)</span>
+            </div>
+          </div>
+          <div class="explain-item">
+            <span class="explain-label">Cultural Slang & Idiom Heat</span>
+            <div class="score-bar-wrapper">
+              <div class="score-bar"><div class="score-fill bg-green" id="score-fill-culture" style="width: 85%;"></div></div>
+              <span class="score-text" id="score-text-culture">High Desi Exuberance</span>
+            </div>
+          </div>
+          <div class="explain-item">
+            <span class="explain-label">Core Prompt Logic (from Notebook)</span>
+            <p class="explain-prompt-code" id="explain-prompt-code">
+              "Translate and rewrite this cricket commentary into Bhojpuri. Make it suitable for an absolute beginner who doesn't know cricket rules..."
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: Multilingual Broadcast Tab (15 Languages Matrix) -->
+    <section class="tab-content-panel" id="multilingual-tab">
+      <div class="section-header-row">
+        <div>
+          <span class="section-tag">FEATURE TAB 3 (NOTEBOOK CELL 6)</span>
+          <h2 class="section-title">Multilingual Broadcast Table</h2>
+          <p class="section-subtitle">Simultaneous translation & adaptation across all 15 Indian & Regional languages with gTTS audio synthesis.</p>
+        </div>
+        <div class="matrix-export-group">
+          <button class="btn-matrix-action" onclick="copyMatrixAsCSV()">
+            <span>📥 Export CSV</span>
+          </button>
+          <button class="btn-matrix-action" onclick="refreshMatrix()">
+            <span>🔄 Regenerate Matrix</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Matrix Filter Strip -->
+      <div class="matrix-toolbar">
+        <div class="matrix-filter-chips">
+          <button class="m-chip active" onclick="filterMatrixRegion('all', this)">All 15 Languages (15)</button>
+          <button class="m-chip" onclick="filterMatrixRegion('North', this)">North India (5)</button>
+          <button class="m-chip" onclick="filterMatrixRegion('South', this)">South India (3)</button>
+          <button class="m-chip" onclick="filterMatrixRegion('East', this)">East India (3)</button>
+          <button class="m-chip" onclick="filterMatrixRegion('West', this)">West India (2)</button>
+          <button class="m-chip" onclick="filterMatrixRegion('Subcontinent', this)">Subcontinent / Global (2)</button>
+        </div>
+        <div class="matrix-search-box">
+          <input type="text" id="matrix-search-input" placeholder="Search language or text..." onkeyup="searchMatrix()">
+        </div>
+      </div>
+
+      <!-- Multilingual Table Matrix -->
+      <div class="matrix-table-container">
+        <table class="omnicast-table" id="multilingual-table">
+          <thead>
+            <tr>
+              <th style="width: 180px;">Language</th>
+              <th style="width: 100px;">gTTS Code</th>
+              <th style="width: 120px;">Region</th>
+              <th>Adapted Commentary (Cell 6 Pipeline)</th>
+              <th style="width: 160px; text-align: center;">Audio Action</th>
+            </tr>
+          </thead>
+          <tbody id="matrix-table-body">
+            <!-- Populated via JavaScript for all 15 languages -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- TAB 4: Audio Voice Mail / Live Audio Stream Tab -->
+    <section class="tab-content-panel" id="audio-tab">
+      <div class="section-header-row">
+        <div>
+          <span class="section-tag">FEATURE TAB 4 (NOTEBOOK CELL 7)</span>
+          <h2 class="section-title">Audio Voice Mail / Live Audio Stream</h2>
+          <p class="section-subtitle">Real gTTS audio generation, interactive waveform visualizer, personalized recipient voicemails, and live radio commentary stream.</p>
+        </div>
+        <div class="live-on-air-badge" id="live-on-air-indicator">
+          <span class="pulse-beacon"></span>
+          <span>ON AIR • 128 KBPS HD</span>
+        </div>
+      </div>
+
+      <div class="audio-tab-grid">
+        <!-- Feature 4A: Audio Voice Mail Studio Card -->
+        <div class="audio-studio-card">
+          <div class="studio-card-header">
+            <div class="card-icon-pill">🎙️</div>
+            <div>
+              <h3 class="studio-heading">Multilingual Audio Voice Mail Studio</h3>
+              <p class="studio-subheading">Generate and download official <code>.mp3</code> voicemails with personalized recipient greetings.</p>
+            </div>
+          </div>
+
+          <div class="voicemail-form">
+            <div class="form-row-dual">
+              <div class="form-group">
+                <label class="form-label">Select Language (15 Available)</label>
+                <select class="form-select" id="vm-select-language" onchange="onVoicemailLanguageChange()">
+                  <option value="Bengali" selected>🐯 Bengali (বাংলা) [Cell 7 Default]</option>
+                  <option value="Hindi">🇮🇳 Hindi (हिन्दी)</option>
+                  <option value="English">🌐 English</option>
+                  <option value="Marathi">🚩 Marathi (मराठी)</option>
+                  <option value="Punjabi">🌾 Punjabi (ਪੰਜਾਬੀ)</option>
+                  <option value="Odia">🛕 Odia / Oriya (ଓଡ଼ିଆ)</option>
+                  <option value="Gujarati">🦁 Gujarati (ગુજરાતી)</option>
+                  <option value="Rajasthani">🐪 Rajasthani (राजस्थानी)</option>
+                  <option value="Tamil">🏛️ Tamil (தமிழ்)</option>
+                  <option value="Telugu">⚡ Telugu / Telegu (తెలుగు)</option>
+                  <option value="Nepali">🏔️ Nepali (नेपाली)</option>
+                  <option value="Kannada">👑 Kannada (ಕನ್ನಡ)</option>
+                  <option value="Urdu">🌙 Urdu (اردو)</option>
+                  <option value="Assamese">🦏 Assamese (অসমীয়া)</option>
+                  <option value="Bhojpuri">🥁 Bhojpuri (भोजपुरी)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Recipient Fan Name / Club</label>
+                <input type="text" class="form-input" id="vm-input-recipient" value="Rahul" placeholder="e.g. Rahul, Kolkata Fans, Priya..." oninput="updateVoicemailPreview()">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Celebration Outro Tag</label>
+              <select class="form-select" id="vm-select-celebration" onchange="updateVoicemailPreview()">
+                <option value="winning">🎉 Match Winning Moment!</option>
+                <option value="sensational">🔥 Sensational Performance!</option>
+                <option value="game_changer">⚡ Game Changer Delivery!</option>
+                <option value="">(No outro tag)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Speech Script Content</label>
+              <textarea class="form-textarea" id="vm-input-script" rows="3" placeholder="Enter text to synthesize with gTTS...">বোলার বলটি কিছুটা পেছনে ফেলেছিলেন, ফলে বলটি বাউন্স করে ব্যাটার থেকে দূরে গেল এবং ব্যাটার ঝুঁকি না নিয়ে বলটি ছেড়ে দিলেন।</textarea>
+            </div>
+
+            <button class="btn-generate-voicemail" id="btn-generate-vm" onclick="generateVoicemail()">
+              <span id="btn-vm-icon">✨</span>
+              <span id="btn-vm-text">Generate Voicemail Audio (.mp3)</span>
+            </button>
+          </div>
+
+          <!-- Active Voicemail Player Player Card -->
+          <div class="active-voicemail-player" id="voicemail-player-card">
+            <div class="player-top-row">
+              <div class="playing-title-wrap">
+                <span class="file-tag" id="vm-audio-filename">omnicast_bengali_voice_mail.mp3</span>
+                <span class="file-size-tag" id="vm-audio-filesize">33.2 KB</span>
+              </div>
+              <a class="btn-download-mp3" id="vm-download-link" href="#" download>
+                <span>⬇ Download MP3</span>
+              </a>
+            </div>
+
+            <!-- Canvas Audio Waveform Visualizer -->
+            <div class="waveform-container">
+              <canvas id="waveform-canvas" width="600" height="70"></canvas>
+            </div>
+
+            <!-- Audio Player Controls -->
+            <div class="audio-control-bar">
+              <button class="btn-play-pause" id="btn-play-pause-vm" onclick="toggleVoicemailPlay()">
+                <span id="vm-play-icon">▶</span>
+              </button>
+              <div class="progress-wrap">
+                <input type="range" class="audio-scrubber" id="vm-scrubber" min="0" max="100" value="0" oninput="scrubAudio(this.value)">
+                <div class="time-readout">
+                  <span id="vm-current-time">0:00</span>
+                  <span>/</span>
+                  <span id="vm-total-time">0:00</span>
+                </div>
+              </div>
+              <div class="volume-wrap">
+                <span>🔊</span>
+                <input type="range" class="volume-slider" id="vm-volume" min="0" max="1" step="0.05" value="1" oninput="setAudioVolume(this.value)">
+              </div>
+            </div>
+
+            <!-- Spoken Script Transcript Display -->
+            <div class="vm-spoken-script-container" id="vm-spoken-script-container" style="margin-top: 1.15rem; padding: 0.85rem 1rem; background: rgba(255, 255, 255, 0.03); border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.08);">
+              <span style="display: block; font-size: 0.7rem; font-weight: 800; color: #22c55e; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.35rem;">🎙️ EXACT SPOKEN VOICE SCRIPT (100% MATCHED)</span>
+              <p class="vm-spoken-script-text" id="vm-spoken-script-text" style="font-size: 0.95rem; color: #f8fafc; line-height: 1.5;">
+                "বোলার বলটি কিছুটা পেছনে ফেলেছিলেন, ফলে বলটি বাউন্স করে ব্যাটার থেকে দূরে গেল এবং ব্যাটার ঝুঁকি না নিয়ে বলটি ছেড়ে দিলেন।"
+              </p>
+            </div>
+            <audio id="real-audio-element" src=""></audio>
+          </div>
+        </div>
+
+        <!-- Feature 4B: Live Radio Stream & Ambiance Broadcast -->
+        <div class="live-radio-card">
+          <div class="radio-card-header">
+            <div class="card-icon-pill bg-purple">📻</div>
+            <div>
+              <h3 class="studio-heading">Live Radio Commentary Stream</h3>
+              <p class="studio-subheading">Simulated non-stop radio broadcast with ambient stadium noise and live voice feed.</p>
+            </div>
+          </div>
+
+          <!-- Radio Broadcast Master Deck -->
+          <div class="radio-master-deck">
+            <div class="deck-top-status">
+              <div class="station-id">
+                <span class="station-callsign">OMNICAST 98.4 FM</span>
+                <span class="station-mode">LIVE STADIUM AUDIO</span>
+              </div>
+              <span class="bitrate-tag">128 KBPS AAC</span>
+            </div>
+
+            <div class="radio-dj-avatar">
+              <div class="dj-visual">
+                <div class="sound-wave-bars" id="radio-wave-bars">
+                  <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="now-playing-box">
+              <span class="now-playing-label">NOW BROADCASTING</span>
+              <p class="now-playing-text" id="radio-now-playing-text">
+                "Short of a length and angled across off, left alone by the batsman."
+              </p>
+              <span class="now-playing-meta" id="radio-now-playing-meta">Language: Hindi • Jasprit Bumrah to Virat Kohli</span>
+            </div>
+
+            <div class="radio-controls-grid">
+              <button class="btn-radio-toggle" id="btn-toggle-radio" onclick="toggleRadioStream()">
+                <span id="radio-icon">▶</span>
+                <span id="radio-text">Start Radio Stream</span>
+              </button>
+
+              <div class="ambiance-toggle-wrap">
+                <label class="switch-container">
+                  <input type="checkbox" id="check-stadium-ambiance" onchange="toggleStadiumAmbiance(this.checked)">
+                  <span class="switch-slider"></span>
+                </label>
+                <span class="ambiance-label">Stadium Crowd Ambiance</span>
+              </div>
+            </div>
+
+            <!-- Radio Station Presets / Language Channels -->
+            <div class="radio-presets">
+              <span class="presets-title">BROADCAST CHANNELS</span>
+              <div class="preset-buttons">
+                <button class="preset-btn active" onclick="setRadioChannel('Hindi', this)">🇮🇳 Hindi Radio</button>
+                <button class="preset-btn" onclick="setRadioChannel('Bengali', this)">🐯 Bengali Radio</button>
+                <button class="preset-btn" onclick="setRadioChannel('Bhojpuri', this)">🥁 Bhojpuri Radio</button>
+                <button class="preset-btn" onclick="setRadioChannel('Tamil', this)">🏛️ Tamil Radio</button>
+                <button class="preset-btn" onclick="setRadioChannel('English', this)">🌐 English Radio</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Additional Matches Section (From Template) -->
+    <section class="matches-grid-section">
+      <div class="section-header-compact">
+        <span class="section-tag">UPCOMING MATCHES</span>
+        <h2 class="section-title">Don't Miss the Next Big Game</h2>
+      </div>
+
+      <div class="matches-cards-row">
+        <!-- Match 1 -->
+        <div class="fixture-card">
+          <div class="teams-versus-row">
+            <div class="team-badge"><span class="team-flag">🔴</span><span>Barcelona</span></div>
+            <span class="vs-text">vs</span>
+            <div class="team-badge"><span class="team-flag">⚪</span><span>Real Madrid</span></div>
+          </div>
+          <div class="match-meta-info">
+            <span class="meta-league">La Liga • El Clásico</span>
+            <span class="meta-datetime">📅 May 25, 2026 • 8:00 PM</span>
+          </div>
+          <button class="btn-fixture-tune" onclick="switchTab('feed-tab')">
+            <span>Tune In Live</span>
+            <span>➔</span>
+          </button>
+        </div>
+
+        <!-- Match 2 -->
+        <div class="fixture-card">
+          <div class="teams-versus-row">
+            <div class="team-badge"><span class="team-flag">🇮🇳</span><span>India</span></div>
+            <span class="vs-text">vs</span>
+            <div class="team-badge"><span class="team-flag">🇦🇺</span><span>Australia</span></div>
+          </div>
+          <div class="match-meta-info">
+            <span class="meta-league">World Championship Final</span>
+            <span class="meta-datetime">📅 Live In-Play • 18.4 Overs</span>
+          </div>
+          <button class="btn-fixture-tune" onclick="switchTab('feed-tab')">
+            <span>Tune In Live</span>
+            <span>➔</span>
+          </button>
+        </div>
+
+        <!-- Match 3 -->
+        <div class="fixture-card">
+          <div class="teams-versus-row">
+            <div class="team-badge"><span class="team-flag">🔴</span><span>Man United</span></div>
+            <span class="vs-text">vs</span>
+            <div class="team-badge"><span class="team-flag">🔴</span><span>Liverpool</span></div>
+          </div>
+          <div class="match-meta-info">
+            <span class="meta-league">Premier League</span>
+            <span class="meta-datetime">📅 May 26, 2026 • 6:30 PM</span>
+          </div>
+          <button class="btn-fixture-tune" onclick="switchTab('feed-tab')">
+            <span>Tune In Live</span>
+            <span>➔</span>
+          </button>
+        </div>
+
+        <!-- Match 4 -->
+        <div class="fixture-card">
+          <div class="teams-versus-row">
+            <div class="team-badge"><span class="team-flag">🔴</span><span>Bayern</span></div>
+            <span class="vs-text">vs</span>
+            <div class="team-badge"><span class="team-flag">🟡</span><span>Dortmund</span></div>
+          </div>
+          <div class="match-meta-info">
+            <span class="meta-league">Bundesliga • Der Klassiker</span>
+            <span class="meta-datetime">📅 May 28, 2026 • 7:30 PM</span>
+          </div>
+          <button class="btn-fixture-tune" onclick="switchTab('feed-tab')">
+            <span>Tune In Live</span>
+            <span>➔</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Fan Community Banner (From Template) -->
+    <section class="fan-community-banner" style="background-image: linear-gradient(180deg, rgba(10, 14, 20, 0.7) 0%, rgba(10, 14, 20, 0.95) 100%), url('/static/images/fans.jpg');">
+      <div class="community-banner-content">
+        <span class="community-tag">FAN COMMUNITY</span>
+        <h2 class="community-heading">United by Passion. Powered by Fans.</h2>
+        <p class="community-subheading">Join over 250,000 passionate sports fans accessing commentary in their mother tongue across 120+ countries.</p>
+        <div class="community-action-row">
+          <button class="btn-hero-primary" onclick="switchTab('multilingual-tab')">
+            <span>Join Broadcast</span>
+            <span>➔</span>
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Add Ball Modal -->
+  <div class="modal-overlay" id="add-ball-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">Add Custom Match Ball / Commentary</h3>
+        <button class="btn-close-modal" onclick="closeAddBallModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Sport Format</label>
+          <select class="form-select" id="new-ball-sport">
+            <option value="cricket" selected>🏏 Live Cricket (T20 / IPL / World Cup)</option>
+          </select>
+        </div>
+        <div class="form-row-dual">
+          <div class="form-group">
+            <label class="form-label">Cricket Event Type</label>
+            <select class="form-select" id="new-ball-event">
+              <option value="FOUR">FOUR 🟢</option>
+              <option value="SIX">SIX 🟣</option>
+              <option value="WICKET">WICKET 🔴</option>
+              <option value="DOT">DOT BALL ⚪</option>
+              <option value="TWO">TWO RUNS 🟡</option>
+              <option value="SINGLE">SINGLE 🔵</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Runs Scored</label>
+            <input type="number" class="form-input" id="new-ball-runs" value="4">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Cricket Commentary Text</label>
+          <textarea class="form-textarea" id="new-ball-text" rows="3" placeholder="Enter live cricket ball-by-ball commentary text..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closeAddBallModal()">Cancel</button>
+        <button class="btn-primary-pill" onclick="submitCustomBall()">Add to Stream</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast-notification" id="toast-notify"></div>
+
+  <!-- Footer (Matching Template) -->
+  <footer class="app-footer">
+    <div class="footer-container">
+      <div class="footer-brand-col">
+        <div class="footer-logo">
+          <span class="highlight-green">OMNICAST</span> AI
+        </div>
+        <p class="footer-tagline">
+          Real-time multilingual AI broadcast pipeline powering pure cricket commentary & voicemails across 15 Indian languages.
+        </p>
+        <span class="copyright-text">© 2026 OmniCast AI • Pure Cricket Multilingual Broadcasting. All rights reserved.</span>
+      </div>
+
+      <div class="footer-links-col">
+        <h5 class="footer-heading">Features</h5>
+        <a href="#feed" onclick="switchTab('feed-tab')">Live Match Feed</a>
+        <a href="#complexity" onclick="switchTab('complexity-tab')">Complexity Switcher</a>
+        <a href="#multilingual" onclick="switchTab('multilingual-tab')">Multilingual Broadcast</a>
+        <a href="#audio" onclick="switchTab('audio-tab')">Audio Voice Mail</a>
+      </div>
+
+      <div class="footer-links-col">
+        <h5 class="footer-heading">AI Technologies</h5>
+        <span>Qwen-2 0.5B Instruct</span>
+        <span>Google gTTS Audio</span>
+        <span>VinitT Commentary Dataset</span>
+        <span>PedroCJardim QASports</span>
+      </div>
+
+      <div class="footer-newsletter-col">
+        <h5 class="footer-heading">Stay Connected</h5>
+        <p class="newsletter-sub">Subscribe to live match alerts and audio clips.</p>
+        <div class="newsletter-form">
+          <input type="email" placeholder="Your email address" class="newsletter-input">
+          <button class="newsletter-submit">➔</button>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
