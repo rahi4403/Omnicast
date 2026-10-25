@@ -14,6 +14,8 @@ import re
 import time
 import uuid
 import hashlib
+import io
+import base64
 from gtts import gTTS
 
 # -------------------------------------------------------------
@@ -960,7 +962,10 @@ def generate_multilingual_matrix(raw_text, audience_mode="rookie", cultural_tone
 # 11. Real-time gTTS Audio Voicemail Generator
 # -------------------------------------------------------------
 AUDIO_DIR = os.path.join(os.path.dirname(__file__), "static", "audio")
-os.makedirs(AUDIO_DIR, exist_ok=True)
+try:
+    os.makedirs(AUDIO_DIR, exist_ok=True)
+except OSError:
+    pass
 
 def is_predominantly_english(text):
     if not text:
@@ -1038,22 +1043,49 @@ def generate_voice_mail(text_to_speak, selected_lang="Bengali", recipient_name="
     filename = f"omnicast_{selected_lang.lower()}_{text_hash}.mp3"
     filepath = os.path.join(AUDIO_DIR, filename)
 
-    if not os.path.exists(filepath):
+    audio_bytes = None
+    if os.path.exists(filepath):
+        try:
+            with open(filepath, "rb") as f:
+                audio_bytes = f.read()
+        except Exception:
+            audio_bytes = None
+
+    if not audio_bytes:
+        fp = io.BytesIO()
         try:
             tts = gTTS(text=full_speech_script, lang=tts_code)
-            tts.save(filepath)
+            tts.write_to_fp(fp)
+            fp.seek(0)
+            audio_bytes = fp.read()
         except Exception as e:
             fallback_lang = "hi" if not full_speech_script.isascii() else "en"
             print(f"TTS fallback to {fallback_lang}: {e}")
             try:
+                fp = io.BytesIO()
                 tts = gTTS(text=full_speech_script, lang=fallback_lang)
-                tts.save(filepath)
+                tts.write_to_fp(fp)
+                fp.seek(0)
+                audio_bytes = fp.read()
             except Exception as e2:
                 print(f"Second fallback: {e2}")
+                fp = io.BytesIO()
                 tts = gTTS(text="OmniCast Cricket Commentary Audio", lang="en")
-                tts.save(filepath)
+                tts.write_to_fp(fp)
+                fp.seek(0)
+                audio_bytes = fp.read()
 
-    file_size_kb = round(os.path.getsize(filepath) / 1024, 1)
+        # Best-effort disk save for environments with write permission (e.g. local dev)
+        if audio_bytes:
+            try:
+                with open(filepath, "wb") as f:
+                    f.write(audio_bytes)
+            except OSError:
+                pass
+
+    file_size_kb = round(len(audio_bytes) / 1024, 1) if audio_bytes else 0
+    audio_b64 = base64.b64encode(audio_bytes).decode('ascii') if audio_bytes else ""
+    audio_data_url = f"data:audio/mp3;base64,{audio_b64}" if audio_b64 else f"/static/audio/{filename}"
 
     return {
         "success": True,
@@ -1061,7 +1093,8 @@ def generate_voice_mail(text_to_speak, selected_lang="Bengali", recipient_name="
         "tts_code": lang_info["gtts"],
         "engine_tts": tts_code,
         "filename": filename,
-        "audio_url": f"/static/audio/{filename}",
+        "audio_url": audio_data_url,
+        "static_url": f"/static/audio/{filename}",
         "script": full_speech_script,
         "body_text": text_to_speak,
         "file_size_kb": file_size_kb,
